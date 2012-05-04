@@ -8,10 +8,12 @@ from bs4 import BeautifulSoup
 
 path = os.path.dirname(os.path.realpath(__file__))
 lastfile = os.path.join(path,'last')
+config = json.load(os.path.join(path,'config'))
+
 def format_push(p):
     desc = p.text[p.text.find('-') + 2:p.text.rfind('-')]
     href = p.find('a').get('href')
-    push = {'email':'boxcar@egd.im',
+    push = {'email':config['to'],
     'notification[from_screen_name]':'CL',
     'notification[message]':desc,
     'notification[source_url]':href,
@@ -19,7 +21,7 @@ def format_push(p):
     return push
 
 def send_push(push):
-    url = "http://boxcar.io/devices/providers/X5RCfRKbUoblfOfcbAMH/notifications"
+    url = "http://boxcar.io/devices/providers/%s/notifications" % config['apikey']
     r = requests.post(url, data=push)
 
 with open(lastfile) as r: last = json.load(r)
