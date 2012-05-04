@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 
 path = os.path.dirname(os.path.realpath(__file__))
 lastfile = os.path.join(path,'last')
-config = json.load(os.path.join(path,'config'))
+config = json.load(open(os.path.join(path,'config')))
 
 def format_push(p):
     desc = p.text[p.text.find('-') + 2:p.text.rfind('-')]
